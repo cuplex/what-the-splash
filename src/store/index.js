@@ -17,7 +17,6 @@ const configureStore = () => {
         )
     );
     sagaMiddleware.run(rootSaga)
-    store.dispatch({ type: 'HELLO_ACTION' })
     return store;
 };
 
