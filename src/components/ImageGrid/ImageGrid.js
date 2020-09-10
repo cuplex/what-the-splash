@@ -1,21 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import './styles.css';
 import  { loadImages } from '../../actions'
 
-const key = '5f96323678d05ff0c4eb264ef184556868e303b32a2db88ecbf15746e6f25e02';
-
-const ImageGrid = ({loadImages}) => {
+const ImageGrid = ({ images, loadImages, isLoading }) => {
      
-    const [images, setImages] = useState([])
     useEffect(() => {
-        fetch(`https://api.unsplash.com/photos/?client_id=${key}&per_page=28`)
-            .then(res => res.json())
-            .then(images => {
-               setImages(images)
-            });
+        loadImages()
     }, [])
-
+    
     return (
         <div className="content">
             <section className="grid">
@@ -33,7 +26,15 @@ const ImageGrid = ({loadImages}) => {
                     </div>
                 ))}
             </section>
-            <button onClick={loadImages}>Load more images</button>
+            <button 
+                onClick={loadImages}
+                disabled={isLoading}
+            >
+                {isLoading 
+                    ? 'Loading...' 
+                    : 'Load more images'
+                }
+            </button>
         </div>
     );
 }
